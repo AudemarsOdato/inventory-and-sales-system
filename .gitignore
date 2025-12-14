@@ -1,6 +1,2 @@
-# database/*.class
-# *.class
 
-# src/**/*.class
-
-./**/*.class
+*.class
