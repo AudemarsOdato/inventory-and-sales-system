@@ -22,16 +22,19 @@ public class Database {
                 }
         }
 
+        public Connection getConnection() {
+                return conn;
+        }
+
         // create table with schemas as parameter
-        public boolean createTable(String table_name) {
+        public boolean createTable(String table_name, String schema) {
                 // create statement using connection
                 // execute using the statement
                 try {
                         Statement statement = conn.createStatement();
-                        statement.execute("CREATE TABLE IF NOT EXISTS " + table_name + "(" + 
-                                          "name VARCHAR(50), " +
-                                          "quantity INT, " +
-                                          "pricing DOUBLE PRECISION);"
+                        statement.execute("CREATE TABLE IF NOT EXISTS " + table_name + "("+ 
+                                                "id BIGSERIAL NOT NULL PRIMARY KEY," +
+                                                schema +");"
                         );
                         return true;
                 }

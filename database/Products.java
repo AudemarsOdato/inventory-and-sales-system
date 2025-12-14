@@ -2,10 +2,10 @@ package database;
 
 public class Products {
         public Products() {
-                new Database().createTable("products");
+                new Database().createTable("products", "");
+                new Database().createTable("users", "username VARCHAR(50), role VARCHAR(10)");
         }
 
-        // create a table if it does not exists
         // adding a new product
         // getting all the products
         // updating a product details
