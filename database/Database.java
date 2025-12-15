@@ -6,10 +6,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Database {
-        private static Connection conn = null;
+        public static Connection conn = null;
+
         private final static String URL = "jdbc:postgresql://localhost:5432/postgres";
         private final static String USER = "postgres";
         private final static String PASSWORD = "trisha";
+
+        static {
+                connectDatabase();
+        }
 
         // classpath -classpath ".\lib\postgresql-42.2.29.jre7.jar"
         private static void connectDatabase() {
@@ -22,17 +27,10 @@ public class Database {
                 }
         }
 
-        public Connection getConnection() {
-                return conn;
-        }
-
-        // create table with schemas as parameter
-        public boolean createTable(String table_name, String schema) {
-                // create statement using connection
-                // execute using the statement
+        public static final boolean createTable(String table_name, String schema) {
                 try {
                         Statement statement = conn.createStatement();
-                        statement.execute("CREATE TABLE IF NOT EXISTS " + table_name + "("+ 
+                        int result = statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table_name + "("+ 
                                                 "id BIGSERIAL NOT NULL PRIMARY KEY," +
                                                 schema +");"
                         );
@@ -44,7 +42,14 @@ public class Database {
                 return false;
         }
 
-        public Database() {
-                connectDatabase();
-        }
+        public void insert(String name, String image_path, int quantity, double pricing) {}
+        public void insert(Object... params) {}
+
+        public void getAll() {}
+
+        public void getOne() {}
+
+        public void updateOne() {}
+
+        public void deleteOne() {}
 }
