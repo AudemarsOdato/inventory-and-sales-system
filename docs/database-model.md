@@ -1,0 +1,1 @@
+[Link](https://drawsql.app/teams/audemars/diagrams/inventory-and-sales-management-system) to database diagram

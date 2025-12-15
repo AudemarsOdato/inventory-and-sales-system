@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-public class Database {
+public class Database{
         public static Connection conn = null;
 
         private final static String URL = "jdbc:postgresql://localhost:5432/postgres";
@@ -30,9 +31,10 @@ public class Database {
         public static final boolean createTable(String table_name, String schema) {
                 try {
                         Statement statement = conn.createStatement();
-                        int result = statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table_name + "("+ 
-                                                "id BIGSERIAL NOT NULL PRIMARY KEY," +
-                                                schema +");"
+                        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table_name + " ("+ 
+                                                        "id BIGSERIAL NOT NULL PRIMARY KEY," +
+                                                        schema +
+                                                ");"
                         );
                         return true;
                 }
@@ -42,10 +44,11 @@ public class Database {
                 return false;
         }
 
-        public void insert(String name, String image_path, int quantity, double pricing) {}
-        public void insert(Object... params) {}
+        public boolean insert(String name, String image_path, int quantity, double pricing) {return false;}
+        public boolean insert(Object... modelObject) {return false;}
 
-        public void getAll() {}
+        // public void getAll() {}
+        public <T> ArrayList<T> getAll() {return null;} // dyanmic return value
 
         public void getOne() {}
 

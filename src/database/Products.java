@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import models.Product;
 
 public class Products extends Database {
 
@@ -20,14 +22,9 @@ public class Products extends Database {
 
         // adding a new product
         @Override
-        public void insert(String name, String image_path, int quantity, double pricing) {
+        public boolean insert(String name, String image_path, int quantity, double pricing) {
                 LocalDate stockupDate = LocalDate.now();
 
-                // prepare statement
-                // create statement using conn
-                // add the values using set method on the prepared statement
-                // execute statement
-                // check if successful by rows affected
                 String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount, last_stockup) VALUES(?, ?, ?, ?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
@@ -39,20 +36,20 @@ public class Products extends Database {
                         preparedStatement.setDate(6, Date.valueOf(stockupDate));
 
                         int result = preparedStatement.executeUpdate();
-                        
-                        if (result == 1) {
-                                System.out.println("added row, " + result + " to " + " products");
 
-                        }
+                        return result == 1; // is result equal to 1
                 }
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
+                return false;
         }
 
         // getting all the products
+        @SuppressWarnings("unchecked")
         @Override
-        public void getAll() {
+        public ArrayList<Product> getAll() {
+                ArrayList<Product> products = new ArrayList<>();
                 // create statement using conn
                 // execute statement and store it into a resultset
                 // take and put the datas into a array variable and display
@@ -68,14 +65,17 @@ public class Products extends Database {
                                 double totalAmount = result.getDouble("total_amount");
                                 Date date = result.getDate("last_stockup");
 
-                                System.out.println(id + " " + name + " " + image_path + " " + quantity + " " + pricing + " " + totalAmount + " " + date);
+                                products.add(new Product(id, name, image_path, quantity, pricing, totalAmount, date));
                         }
+                        return products;
                 }
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
+                return null;
         }
 
-        // updating a product details
-        // deleting a product
+        // getOne
+        // updateOne
+        // deleteOne
 }

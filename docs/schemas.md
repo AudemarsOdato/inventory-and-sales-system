@@ -1,4 +1,6 @@
 # Schemas / model
+## !! this is an outdated schema !!
+Please proceed to database model to see the updated one
 
 ## Product schema / attributes
 - PRODUCT_ID STRING PROCESS
