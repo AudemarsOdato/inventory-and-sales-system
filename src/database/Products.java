@@ -23,8 +23,6 @@ public class Products extends Database {
         // adding a new product
         @Override
         public boolean insert(String name, String image_path, int quantity, double pricing) {
-                LocalDate stockupDate = LocalDate.now();
-
                 String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount, last_stockup) VALUES(?, ?, ?, ?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
@@ -33,7 +31,7 @@ public class Products extends Database {
                         preparedStatement.setInt(3, quantity);
                         preparedStatement.setDouble(4, pricing);
                         preparedStatement.setDouble(5, pricing * quantity);
-                        preparedStatement.setDate(6, Date.valueOf(stockupDate));
+                        preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
 
                         int result = preparedStatement.executeUpdate();
 
@@ -45,7 +43,6 @@ public class Products extends Database {
                 return false;
         }
 
-        // getting all the products
         @SuppressWarnings("unchecked")
         @Override
         public ArrayList<Product> getAll() {
@@ -72,10 +69,79 @@ public class Products extends Database {
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
+
                 return null;
         }
 
-        // getOne
-        // updateOne
-        // deleteOne
+        @SuppressWarnings("unchecked")
+        @Override
+        public Product getOne(int id) {
+
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products WHERE id = " + id)) {
+                        ResultSet result = preparedStatement.executeQuery();
+
+                        while (result.next()) {
+                                return new Product(
+                                        result.getInt("id"),
+                                        result.getString("name"),
+                                        result.getString("image_path"),
+                                        result.getInt("quantity"),
+                                        result.getDouble("pricing"),
+                                        result.getDouble("total_amount"),
+                                        result.getDate("last_stockup")
+                                );
+                        }
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+
+                return null;
+        }
+
+        @Override
+        public boolean updateOne(int id, String name, String imagePath, int quantity, double pricing) {
+                String statement = "UPDATE products " +
+                                        "SET name = ?, " + 
+                                        "image_path = ?, " + 
+                                        "quantity = ?, " +
+                                        "pricing = ?, " +
+                                        "total_amount = ?, " +
+                                        "last_stockup = ? " + 
+                                        "WHERE id = " + id +";";
+
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                        preparedStatement.setString(1, name);
+                        preparedStatement.setString(2, imagePath);
+                        preparedStatement.setInt(3, quantity);
+                        preparedStatement.setDouble(4, pricing);
+                        preparedStatement.setDouble(5, pricing * quantity);
+                        preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
+
+                       int result = preparedStatement.executeUpdate();
+                       
+                       return result == 1;
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+
+                return false;
+        }
+
+        @Override
+        public boolean deleteOne(int id) {
+                
+                try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM products WHERE id = " + id)) {
+                        int result = preparedStatement.executeUpdate();
+
+                        return result == 1;
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+
+                return false;
+        }
+
 }

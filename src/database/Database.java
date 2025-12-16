@@ -28,7 +28,7 @@ public class Database{
                 }
         }
 
-        public static final boolean createTable(String table_name, String schema) {
+        protected static final boolean createTable(String table_name, String schema) {
                 try {
                         Statement statement = conn.createStatement();
                         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table_name + " ("+ 
@@ -45,14 +45,13 @@ public class Database{
         }
 
         public boolean insert(String name, String image_path, int quantity, double pricing) {return false;}
-        public boolean insert(Object... modelObject) {return false;}
 
         // public void getAll() {}
         public <T> ArrayList<T> getAll() {return null;} // dyanmic return value
 
-        public void getOne() {}
+        public <T> T getOne(int id) {return null;}
 
-        public void updateOne() {}
+        public boolean updateOne(int id, String name, String imagePath, int quantity, double pricing) {return false;}
 
-        public void deleteOne() {}
+        public boolean deleteOne(int id) {return false;}
 }
