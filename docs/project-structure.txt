@@ -1,0 +1,12 @@
+inventory-and-sales-system
+├── docs
+├── lib
+|   ├── postgresql-42.2.29.jre7.jar
+|   └── dummy-data-products.sql
+└── src
+    ├── components
+    ├── database
+    ├── models
+    ├── pages
+    ├── services
+    └── utilities

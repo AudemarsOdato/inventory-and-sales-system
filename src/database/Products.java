@@ -11,12 +11,13 @@ import models.Product;
 public class Products extends Database {
 
         static {
-                createTable("products", "name VARCHAR(50) NOT NULL, " + 
-                                        "image_path VARCHAR(200) NOT NULL, " +
-                                        "quantity INT NOT NULL, " +
-                                        "pricing DOUBLE PRECISION NOT NULL, " +
-                                        "total_amount DOUBLE PRECISION NOT NULL, " +
-                                        "last_stockup DATE NOT NULL"
+                createTable("products", 
+                        "name VARCHAR(255) NOT NULL, " + 
+                        "image_path VARCHAR(255) NOT NULL, " +
+                        "quantity INT NOT NULL, " +
+                        "pricing DOUBLE PRECISION NOT NULL, " +
+                        "total_amount DOUBLE PRECISION NOT NULL, " +
+                        "last_stockup DATE NOT NULL"
                 );
         }
 

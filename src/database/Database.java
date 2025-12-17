@@ -28,10 +28,10 @@ public class Database{
                 }
         }
 
-        protected static final boolean createTable(String table_name, String schema) {
+        protected static final boolean createTable(String tableName, String schema) {
                 try {
                         Statement statement = conn.createStatement();
-                        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + table_name + " ("+ 
+                        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + tableName + " ("+ 
                                                         "id BIGSERIAL NOT NULL PRIMARY KEY," +
                                                         schema +
                                                 ");"
@@ -45,8 +45,9 @@ public class Database{
         }
 
         public boolean insert(String name, String image_path, int quantity, double pricing) {return false;}
+        
+        public boolean insert(String role, String name, String password, int totalSales) {return false;}
 
-        // public void getAll() {}
         public <T> ArrayList<T> getAll() {return null;} // dyanmic return value
 
         public <T> T getOne(int id) {return null;}
