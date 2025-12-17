@@ -1,9 +1,9 @@
 package database;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import models.User;
 
 public class Users extends Database{
@@ -13,7 +13,8 @@ public class Users extends Database{
                         "role VARCHAR(7) NOT NULL, " +
                         "username VARCHAR(255) NOT NULL, " +
                         "password TEXT NOT NULL, " +
-                        "total_sales INT NOT NULL"
+                        "total_sales INT NOT NULL, " +
+                        "UNIQUE(username)"
                 );
         }
 
@@ -23,8 +24,8 @@ public class Users extends Database{
                 String statement = "INSERT INTO users(role, username, password, total_sales) VALUES(?, ?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
-                        preparedStatement.setString(1, role);
-                        preparedStatement.setString(2, name);
+                        preparedStatement.setString(1, role.toLowerCase());
+                        preparedStatement.setString(2, name.toLowerCase());
                         preparedStatement.setString(3, password);
                         preparedStatement.setInt(4, totalSales);
 
@@ -39,9 +40,59 @@ public class Users extends Database{
         }
 
         // get all user
+        @SuppressWarnings("unchecked")
+        @Override
+        public ArrayList<User> getAll() {
+                ArrayList<User> users = new ArrayList<>();
+                // create statement using conn
+                // execute statement and store it into a resultset
+                // take and put the datas into a array variable and display
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users;")) {
+                        ResultSet result = preparedStatement.executeQuery();
+                        
+                        // int id, String name, String role, String password, int totalSales
+                        while (result.next()) {
+                                users.add(new User(
+                                                result.getInt("id"), 
+                                                result.getString("role"), 
+                                                result.getString("username"), 
+                                                result.getString("password"), 
+                                                result.getInt("total_sales")
+                                        )
+                                );
+                        }
+                        return users;
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
 
-
+                return null;
+        }
+        
         // get one user
+        @SuppressWarnings("unchecked")
+        @Override
+        public User getOne(int id) {
+
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE id = " + id)) {
+                        ResultSet result = preparedStatement.executeQuery();
+                        while (result.next()) {
+                                return new User(
+                                        result.getInt("id"),
+                                        result.getString("role"),
+                                        result.getString("username"),
+                                        result.getString("password"),
+                                        result.getInt("total_sales")
+                                );
+                        }
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+
+                return null;
+        }
 
 
         // update one user

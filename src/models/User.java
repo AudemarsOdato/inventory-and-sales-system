@@ -7,12 +7,12 @@ public class User {
         private final String password;
         private final int totalSales;
 
-        public User(int id, String name, String role, String password, int totalSales) {
+        public User(int id, String role, String username, String password, int totalSales) {
                 this.id = id;
-                this.name= name;
+                this.name = username;
                 this.role = role;
-                this.password= password;
-                this.totalSales= totalSales;
+                this.password = password;
+                this.totalSales = totalSales;
         }
 
         public int getId() {

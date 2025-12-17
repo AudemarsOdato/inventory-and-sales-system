@@ -21,7 +21,6 @@ public class Products extends Database {
                 );
         }
 
-        // adding a new product
         @Override
         public boolean insert(String name, String image_path, int quantity, double pricing) {
                 String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount, last_stockup) VALUES(?, ?, ?, ?, ?, ?)";
@@ -63,6 +62,7 @@ public class Products extends Database {
                                 double totalAmount = result.getDouble("total_amount");
                                 Date date = result.getDate("last_stockup");
 
+                                // refactor: put the get methods directly, see Users.java
                                 products.add(new Product(id, name, image_path, quantity, pricing, totalAmount, date));
                         }
                         return products;
@@ -144,5 +144,4 @@ public class Products extends Database {
 
                 return false;
         }
-
 }
