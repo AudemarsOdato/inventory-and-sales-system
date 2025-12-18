@@ -46,13 +46,15 @@ public class Database{
 
         protected boolean insert(String name, String image_path, int quantity, double pricing) {return false;}
         
-        protected boolean insert(String role, String name, String password, int totalSales) {return false;}
+        protected boolean insert(String role, String name, String password) {return false;}
 
         protected <T> ArrayList<T> getAll() {return null;} // dyanmic return value
 
         protected <T> T getOne(int id) {return null;}
 
         protected boolean updateOne(int id, String name, String imagePath, int quantity, double pricing) {return false;}
+
+        protected boolean updateOne(int id, String role, String username, String password, int totalSales) {return false;}
 
         protected boolean deleteOne(int id) {return false;}
 }

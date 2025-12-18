@@ -70,15 +70,13 @@ public class Products extends Database {
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-
                 return null;
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public Product getOne(int id) {
-
-                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products WHERE id = " + id)) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products WHERE id = " + id + ";")) {
                         ResultSet result = preparedStatement.executeQuery();
 
                         while (result.next()) {
@@ -96,7 +94,6 @@ public class Products extends Database {
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-
                 return null;
         }
 
@@ -126,14 +123,12 @@ public class Products extends Database {
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-
                 return false;
         }
 
         @Override
         public boolean deleteOne(int id) {
-                
-                try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM products WHERE id = " + id)) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM products WHERE id = " + id + ";")) {
                         int result = preparedStatement.executeUpdate();
 
                         return result == 1;
@@ -141,7 +136,6 @@ public class Products extends Database {
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-
                 return false;
         }
 }

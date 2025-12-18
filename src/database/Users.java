@@ -20,14 +20,14 @@ public class Users extends Database{
 
         // create new user
         @Override
-        public boolean insert(String role, String name, String password, int totalSales) {
+        public boolean insert(String role, String username, String password) {
                 String statement = "INSERT INTO users(role, username, password, total_sales) VALUES(?, ?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, role.toLowerCase());
-                        preparedStatement.setString(2, name.toLowerCase());
+                        preparedStatement.setString(2, username.toLowerCase());
                         preparedStatement.setString(3, password);
-                        preparedStatement.setInt(4, totalSales);
+                        preparedStatement.setInt(4, 0);
 
                         int result = preparedStatement.executeUpdate();
 
@@ -50,7 +50,7 @@ public class Users extends Database{
                 try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users;")) {
                         ResultSet result = preparedStatement.executeQuery();
                         
-                        // int id, String name, String role, String password, int totalSales
+                        // int id, String username, String role, String password, int totalSales
                         while (result.next()) {
                                 users.add(new User(
                                                 result.getInt("id"), 
@@ -66,7 +66,6 @@ public class Users extends Database{
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-
                 return null;
         }
         
@@ -74,8 +73,7 @@ public class Users extends Database{
         @SuppressWarnings("unchecked")
         @Override
         public User getOne(int id) {
-
-                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE id = " + id)) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE id = " + id + ";")) {
                         ResultSet result = preparedStatement.executeQuery();
                         while (result.next()) {
                                 return new User(
@@ -90,13 +88,47 @@ public class Users extends Database{
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-
                 return null;
         }
 
 
         // update one user
+        @Override
+        public boolean updateOne(int id, String role, String username, String password, int totalSales) {
+                String statement = "UPDATE users " +
+                                        "SET role = ?, " + 
+                                        "username = ?, " + 
+                                        "password = ?, " +
+                                        "total_sales = ? " + // increment
+                                        "WHERE id = " + id + ";";
 
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                        preparedStatement.setString(1, role);
+                        preparedStatement.setString(2, username);
+                        preparedStatement.setString(3, role);
+                        preparedStatement.setInt(4, totalSales); 
+
+                       int result = preparedStatement.executeUpdate();
+                       
+                       return result == 1;
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+                return false;
+        }
 
         // delete one user
+        @Override
+        public boolean deleteOne(int id) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM users WHERE id = " + id + ";")) {
+                        int result = preparedStatement.executeUpdate();
+
+                        return result == 1;
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+                return false;
+        }
 }

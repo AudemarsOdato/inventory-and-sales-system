@@ -3,13 +3,13 @@ package models;
 public class User {
         private final int id;
         private final String role;
-        private final String name;
+        private final String username;
         private final String password;
         private final int totalSales;
 
         public User(int id, String role, String username, String password, int totalSales) {
                 this.id = id;
-                this.name = username;
+                this.username = username;
                 this.role = role;
                 this.password = password;
                 this.totalSales = totalSales;
@@ -20,7 +20,7 @@ public class User {
         }
 
         public String getName() {
-                return name;
+                return username;
         }
 
         public String getRole() {
