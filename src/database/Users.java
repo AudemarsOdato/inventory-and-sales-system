@@ -18,7 +18,6 @@ public class Users extends Database{
                 );
         }
 
-        // create new user
         @Override
         public boolean insert(String role, String username, String password) {
                 String statement = "INSERT INTO users(role, username, password, total_sales) VALUES(?, ?, ?, ?)";
@@ -39,14 +38,11 @@ public class Users extends Database{
                 return false;
         }
 
-        // get all user
         @SuppressWarnings("unchecked")
         @Override
         public ArrayList<User> getAll() {
                 ArrayList<User> users = new ArrayList<>();
-                // create statement using conn
-                // execute statement and store it into a resultset
-                // take and put the datas into a array variable and display
+
                 try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users;")) {
                         ResultSet result = preparedStatement.executeQuery();
                         
@@ -69,7 +65,6 @@ public class Users extends Database{
                 return null;
         }
         
-        // get one user
         @SuppressWarnings("unchecked")
         @Override
         public User getOne(int id) {
@@ -92,7 +87,6 @@ public class Users extends Database{
         }
 
 
-        // update one user
         @Override
         public boolean updateOne(int id, String role, String username, String password, int totalSales) {
                 String statement = "UPDATE users " +
@@ -118,7 +112,6 @@ public class Users extends Database{
                 return false;
         }
 
-        // delete one user
         @Override
         public boolean deleteOne(int id) {
                 try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM users WHERE id = " + id + ";")) {

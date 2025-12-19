@@ -7,20 +7,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Database{
-        public static Connection conn = null;
-
-        private final static String URL = "jdbc:postgresql://localhost:5432/postgres";
-        private final static String USER = "postgres";
-        private final static String PASSWORD = "trisha";
-
-        static {
-                connectDatabase();
-        }
+        // https://www.google.com/search?q=make+instance+of+object+static&oq=make+instance+of+object+static&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRifBTIHCAMQIRifBTIHCAQQIRifBdIBCTEwMTgyajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
+        // https://www.google.com/search?q=singleton+class+in+java&oq=single&gs_lcrp=EgZjaHJvbWUqDAgFEAAYQxiABBiKBTIRCAAQRRg5GEYY-QEYsQMYgAQyDQgBEAAYkQIYgAQYigUyDQgCEAAYkQIYgAQYigUyEggDEAAYQxiDARixAxiABBiKBTIMCAQQABhDGIAEGIoFMgwIBRAAGEMYgAQYigUyBwgGEAAYgAQyCggHEAAYsQMYgAQyDQgIEC4YgwEYsQMYgAQyBwgJEAAYjwLSAQg3OTk5ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
+        protected  static Connection conn = null;
 
         // classpath -classpath ".\lib\postgresql-42.2.29.jre7.jar"
-        private static void connectDatabase() {
+        public static void connect(String url, String user, String password) {
                 try {
-                        conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                        conn = DriverManager.getConnection(url, user, password);
                         System.out.println("connected to db");
                 }
                 catch (SQLException error) {

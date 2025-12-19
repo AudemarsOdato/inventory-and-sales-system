@@ -47,9 +47,7 @@ public class Products extends Database {
         @Override
         public ArrayList<Product> getAll() {
                 ArrayList<Product> products = new ArrayList<>();
-                // create statement using conn
-                // execute statement and store it into a resultset
-                // take and put the datas into a array variable and display
+                
                 try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products;")) {
                         ResultSet result = preparedStatement.executeQuery();
 
