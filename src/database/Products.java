@@ -21,8 +21,7 @@ public class Products extends Database {
                 );
         }
 
-        @Override
-        public boolean insert(String name, String image_path, int quantity, double pricing) {
+        public boolean insert(String name, String image_path, int quantity, double pricing, Date date) {
                 String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount, last_stockup) VALUES(?, ?, ?, ?, ?, ?)";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
@@ -31,7 +30,8 @@ public class Products extends Database {
                         preparedStatement.setInt(3, quantity);
                         preparedStatement.setDouble(4, pricing);
                         preparedStatement.setDouble(5, pricing * quantity);
-                        preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
+                        preparedStatement.setDate(6, date);
+                        // Date.valueOf(LocalDate.now())
 
                         int result = preparedStatement.executeUpdate();
 

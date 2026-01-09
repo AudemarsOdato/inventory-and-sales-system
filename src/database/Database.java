@@ -11,7 +11,7 @@ public class Database{
         // https://www.google.com/search?q=singleton+class+in+java&oq=single&gs_lcrp=EgZjaHJvbWUqDAgFEAAYQxiABBiKBTIRCAAQRRg5GEYY-QEYsQMYgAQyDQgBEAAYkQIYgAQYigUyDQgCEAAYkQIYgAQYigUyEggDEAAYQxiDARixAxiABBiKBTIMCAQQABhDGIAEGIoFMgwIBRAAGEMYgAQYigUyBwgGEAAYgAQyCggHEAAYsQMYgAQyDQgIEC4YgwEYsQMYgAQyBwgJEAAYjwLSAQg3OTk5ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
         protected  static Connection conn = null;
 
-        // classpath -classpath ".\lib\postgresql-42.2.29.jre7.jar"
+        // -classpath ".\lib\postgresql-42.2.29.jre7.jar"
         public static void connect(String url, String user, String password) {
                 try {
                         conn = DriverManager.getConnection(url, user, password);
@@ -37,10 +37,6 @@ public class Database{
                 }
                 return false;
         }
-
-        protected boolean insert(String name, String image_path, int quantity, double pricing) {return false;}
-        
-        protected boolean insert(String role, String name, String password) {return false;}
 
         protected <T> ArrayList<T> getAll() {return null;} // dyanmic return value
 

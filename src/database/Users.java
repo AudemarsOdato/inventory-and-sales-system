@@ -18,7 +18,6 @@ public class Users extends Database{
                 );
         }
 
-        @Override
         public boolean insert(String role, String username, String password) {
                 String statement = "INSERT INTO users(role, username, password, total_sales) VALUES(?, ?, ?, ?)";
 
