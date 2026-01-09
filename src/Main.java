@@ -1,17 +1,31 @@
 import database.Database;
+import database.Products;
 import database.SalesHistory;
 
 public class Main {
         // start command: java -classpath ".\lib\postgresql-42.2.29.jre7.jar" .\src\Main.java
         public static void main(String[] args) {
                 Database.connect("jdbc:postgresql://localhost:5432/postgres", "postgres", "trisha");
-                // new Setup().setVisible(true);
+                Products products = new Products();
 
-                // test
-                // products
-                // Products products = new Products();
+                // Users users = new Users();
+                // users.insert("owner", "username", "password");
+                SalesHistory sales = new SalesHistory();
+                // ArrayList<Item> items = new ArrayList<>();
+                // items.add(new Item(3, 1, 12));
+                // items.add(new Item(4, 2, 121));
+                // System.out.println(sales.insert(new Sale(1, items, 12, 12)));
 
-                // boolean insert = products.insert("product1", "testimage.jpg", 10, 22, Date.valueOf(LocalDate.now()));
+                // for (Item item : sales.getSaleItems(12)) {
+                //         System.out.println(item.getTotal());
+                //         System.out.println(item.getProductId());
+                //         System.out.println(products.getOne(item.getProductId()).getName());
+                // }
+
+                // // test
+                // // products
+
+                // int insert = products.insert("product1", "testimage.jpg", 10, 22);
                 // System.out.println("added new: " + insert);
 
                 // ArrayList<Product> productList = products.getAll();
@@ -28,7 +42,7 @@ public class Main {
                 // boolean deletedProduct = products.deleteOne(101);
                 // System.out.println("deleted: " + deletedProduct);
 
-                // users 
+                // // users 
                 // Users users = new Users();
                 // boolean newUser = users.insert("owner", "odato", "trisha");
                 // System.out.println(newUser);
@@ -47,6 +61,5 @@ public class Main {
                 // boolean removedUser = users.deleteOne(5);
                 // System.out.println("deldeted user: " + singleUser);
 
-                SalesHistory sales = new SalesHistory();
         }
 }

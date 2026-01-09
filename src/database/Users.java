@@ -18,8 +18,8 @@ public class Users extends Database{
                 );
         }
 
-        public boolean insert(String role, String username, String password) {
-                String statement = "INSERT INTO users(role, username, password, total_sales) VALUES(?, ?, ?, ?)";
+        public int insert(String role, String username, String password) {
+                String statement = "INSERT INTO users(role, username, password, total_sales) VALUES(?, ?, ?, ?) RETURNING id;";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, role.toLowerCase());
@@ -27,18 +27,18 @@ public class Users extends Database{
                         preparedStatement.setString(3, password);
                         preparedStatement.setInt(4, 0);
 
-                        int result = preparedStatement.executeUpdate();
+                        ResultSet result = preparedStatement.executeQuery();
 
-                        return result == 1; // is result equal to 1
+                        if (result.next()) {
+                                return (int)result.getInt(1);
+                        }
                 }
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-                return false;
+                return 0;
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
         public ArrayList<User> getAll() {
                 ArrayList<User> users = new ArrayList<>();
 
@@ -64,8 +64,6 @@ public class Users extends Database{
                 return null;
         }
         
-        @SuppressWarnings("unchecked")
-        @Override
         public User getOne(int id) {
                 try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE id = " + id + ";")) {
                         ResultSet result = preparedStatement.executeQuery();
@@ -86,7 +84,6 @@ public class Users extends Database{
         }
 
 
-        @Override
         public boolean updateOne(int id, String role, String username, String password, int totalSales) {
                 String statement = "UPDATE users " +
                                         "SET role = ?, " + 
@@ -111,7 +108,6 @@ public class Users extends Database{
                 return false;
         }
 
-        @Override
         public boolean deleteOne(int id) {
                 try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM users WHERE id = " + id + ";")) {
                         int result = preparedStatement.executeUpdate();

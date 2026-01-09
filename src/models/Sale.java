@@ -1,89 +1,53 @@
 package models;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Sale {
-        private final int id;
-        private final String cashier;
-        private final ArrayList<Item> items;
-        private final double total;
-        private final double received;
-        private final double change;
-        private final LocalDateTime timeAndDate;
+        private int id;
+        private final int cashierId;
+        private ArrayList<Item> items;
+        private final double totalAmount;
+        private final double cashReceived;
+        private final double changeAmount;
 
-        public Sale(int id, String cashier, ArrayList<Item> items, double total, double received, double change, LocalDateTime timeAndDate) {
+        public Sale(int id, int cashierId, ArrayList<Item> items, double totalAmount, double cashReceived) {
                 this.id = id;
-                this.cashier = cashier;
+                this.cashierId = cashierId;
                 this.items = items;
-                this.total = total;
-                this.received = received;
-                this.change = change;
-                this.timeAndDate = timeAndDate;
+                this.totalAmount = totalAmount;
+                this.cashReceived = cashReceived;
+                this.changeAmount = totalAmount - cashReceived;
+        }
+        
+        public Sale(int cashierId, ArrayList<Item> items, double totalAmount, double cashReceived) {
+                this.cashierId = cashierId;
+                this.items = items;
+                this.totalAmount = totalAmount;
+                this.cashReceived = cashReceived;
+                this.changeAmount = totalAmount - cashReceived;
         }
 
         public int getId() {
                 return id;
         }
 
-        public String getCashier() {
-                return cashier;
+        public int getCashierId() {
+                return cashierId;
         }
 
         public ArrayList<Item> getItems() {
                 return items;
         }
 
-        public double getTotal() {
-                return total;
+        public double getTotalAmount() {
+                return totalAmount;
         }
 
-        public double getReceived() {
-                return received;
+        public double getCashReceived() {
+                return cashReceived;
         }
 
-        public double getChange() {
-                return change;
-        }
-
-        public LocalDateTime getTimeAndDate() {
-                return timeAndDate;
-        }
-        
-        public class Item {
-                private final int id;
-                private final String name;
-                private final int quantity;
-                private final double price;
-                private final double total;
-
-                public Item(int id, String name, int quantity, double price, double total) {
-                        this.id = id;
-                        this.name = name;
-                        this.quantity = quantity;
-                        this.price = price;
-                        this.total = total;
-                }
-
-                public int getId() {
-                        return id;
-                }
-
-                public String getName() {
-                        return name;
-                }
-
-                public int getQuantity() {
-                        return quantity;
-                }
-
-                public double getPrice() {
-                        return price;
-                }
-
-                // derived value getter
-                public double getTotal() {
-                        return total; // quantity * price
-                }
+        public double getChangeAmount() {
+                return changeAmount;
         }
 }

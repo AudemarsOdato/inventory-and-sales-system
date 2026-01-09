@@ -17,12 +17,12 @@ public class Products extends Database {
                         "quantity INT NOT NULL, " +
                         "pricing DOUBLE PRECISION NOT NULL, " +
                         "total_amount DOUBLE PRECISION NOT NULL, " +
-                        "last_stockup DATE NOT NULL"
+                        "last_stockup DATE NOT NULL DEFAULT CURRENT_DATE"
                 );
         }
 
-        public boolean insert(String name, String image_path, int quantity, double pricing, Date date) {
-                String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount, last_stockup) VALUES(?, ?, ?, ?, ?, ?)";
+        public int insert(String name, String image_path, int quantity, double pricing) {
+                String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount) VALUES(?, ?, ?, ?, ?) RETURNING id;";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, name);
@@ -30,21 +30,20 @@ public class Products extends Database {
                         preparedStatement.setInt(3, quantity);
                         preparedStatement.setDouble(4, pricing);
                         preparedStatement.setDouble(5, pricing * quantity);
-                        preparedStatement.setDate(6, date);
                         // Date.valueOf(LocalDate.now())
 
-                        int result = preparedStatement.executeUpdate();
+                        ResultSet result = preparedStatement.executeQuery();
 
-                        return result == 1; // is result equal to 1
+                        if (result.next()) {
+                                return (int)result.getInt(1);
+                        }
                 }
                 catch (SQLException error) {
                         error.printStackTrace();
                 }
-                return false;
+                return 0;
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
         public ArrayList<Product> getAll() {
                 ArrayList<Product> products = new ArrayList<>();
                 
@@ -71,8 +70,6 @@ public class Products extends Database {
                 return null;
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
         public Product getOne(int id) {
                 try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products WHERE id = " + id + ";")) {
                         ResultSet result = preparedStatement.executeQuery();
@@ -95,7 +92,6 @@ public class Products extends Database {
                 return null;
         }
 
-        @Override
         public boolean updateOne(int id, String name, String imagePath, int quantity, double pricing) {
                 String statement = "UPDATE products " +
                                         "SET name = ?, " + 
@@ -124,7 +120,6 @@ public class Products extends Database {
                 return false;
         }
 
-        @Override
         public boolean deleteOne(int id) {
                 try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM products WHERE id = " + id + ";")) {
                         int result = preparedStatement.executeUpdate();

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 public class Database{
         // https://www.google.com/search?q=make+instance+of+object+static&oq=make+instance+of+object+static&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRifBTIHCAMQIRifBTIHCAQQIRifBdIBCTEwMTgyajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
@@ -37,14 +36,4 @@ public class Database{
                 }
                 return false;
         }
-
-        protected <T> ArrayList<T> getAll() {return null;} // dyanmic return value
-
-        protected <T> T getOne(int id) {return null;}
-
-        protected boolean updateOne(int id, String name, String imagePath, int quantity, double pricing) {return false;}
-
-        protected boolean updateOne(int id, String role, String username, String password, int totalSales) {return false;}
-
-        protected boolean deleteOne(int id) {return false;}
 }
