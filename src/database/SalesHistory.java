@@ -14,7 +14,7 @@ public class SalesHistory extends Database {
                         "cashier BIGINT REFERENCES users(id) NOT NULL, " +
                         "total_amount NUMERIC(10, 2) NOT NULL, " +
                         "cash_received NUMERIC(10, 2) NOT NULL, " +
-                        "change NUMERIC(10, 2) NOT NULL, " +
+                        "change_amount NUMERIC(10, 2) NOT NULL, " +
                         "time_and_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL" // "use the database time as the source of truth." -chatgpt, 2026
                 );
                 createTable("sale_items", 
@@ -34,12 +34,13 @@ public class SalesHistory extends Database {
                 }
 
                 recordSaleItems(sale, saleId);
+                new Products().updateInventory(sale.getItems());
 
                 return saleId;
         }
 
         private static int recordSale(Sale sale) {
-                String statement = "INSERT INTO sales(cashier, total_amount, cash_received, change)" + 
+                String statement = "INSERT INTO sales(cashier, total_amount, cash_received, change_amount)" + 
                                 "VALUES(?, ?, ?, ?) RETURNING id;";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
@@ -95,7 +96,7 @@ public class SalesHistory extends Database {
         // get one for confirmation
 
         
-        // get sale items
+        // get sale items of a single sale
         public ArrayList<Item> getSaleItems(int saleId) {
                 String statement = "SELECT * FROM sale_items WHERE sale_id = " + saleId + ";";
 

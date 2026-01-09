@@ -1,6 +1,9 @@
 import database.Database;
 import database.Products;
 import database.SalesHistory;
+import java.util.ArrayList;
+import models.Item;
+import models.Sale;
 
 public class Main {
         // start command: java -classpath ".\lib\postgresql-42.2.29.jre7.jar" .\src\Main.java
@@ -11,10 +14,11 @@ public class Main {
                 // Users users = new Users();
                 // users.insert("owner", "username", "password");
                 SalesHistory sales = new SalesHistory();
-                // ArrayList<Item> items = new ArrayList<>();
-                // items.add(new Item(3, 1, 12));
-                // items.add(new Item(4, 2, 121));
-                // System.out.println(sales.insert(new Sale(1, items, 12, 12)));
+
+                ArrayList<Item> items = new ArrayList<>();
+                items.add(new Item(1, 1, 12));
+                items.add(new Item(2, 21, 121));
+                System.out.println(sales.insert(new Sale(1, items, 12, 12)));
 
                 // for (Item item : sales.getSaleItems(12)) {
                 //         System.out.println(item.getTotal());

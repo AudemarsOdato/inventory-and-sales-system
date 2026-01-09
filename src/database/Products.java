@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import models.Item;
 import models.Product;
 
 public class Products extends Database {
@@ -16,7 +17,6 @@ public class Products extends Database {
                         "image_path VARCHAR(255) NOT NULL, " +
                         "quantity INT NOT NULL, " +
                         "pricing DOUBLE PRECISION NOT NULL, " +
-                        "total_amount DOUBLE PRECISION NOT NULL, " +
                         "last_stockup DATE NOT NULL DEFAULT CURRENT_DATE"
                 );
         }
@@ -60,7 +60,7 @@ public class Products extends Database {
                                 Date date = result.getDate("last_stockup");
 
                                 // refactor: put the get methods directly, see Users.java
-                                products.add(new Product(id, name, image_path, quantity, pricing, totalAmount, date));
+                                products.add(new Product(id, name, image_path, quantity, pricing, date));
                         }
                         return products;
                 }
@@ -81,7 +81,6 @@ public class Products extends Database {
                                         result.getString("image_path"),
                                         result.getInt("quantity"),
                                         result.getDouble("pricing"),
-                                        result.getDouble("total_amount"),
                                         result.getDate("last_stockup")
                                 );
                         }
@@ -92,22 +91,18 @@ public class Products extends Database {
                 return null;
         }
 
-        public boolean updateOne(int id, String name, String imagePath, int quantity, double pricing) {
+        public boolean updateOne(int id, String name, String imagePath, double pricing) {
                 String statement = "UPDATE products " +
                                         "SET name = ?, " + 
                                         "image_path = ?, " + 
-                                        "quantity = ?, " +
                                         "pricing = ?, " +
-                                        "total_amount = ?, " +
                                         "last_stockup = ? " + 
                                         "WHERE id = " + id +";";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, name);
                         preparedStatement.setString(2, imagePath);
-                        preparedStatement.setInt(3, quantity);
                         preparedStatement.setDouble(4, pricing);
-                        preparedStatement.setDouble(5, pricing * quantity);
                         preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
 
                        int result = preparedStatement.executeUpdate();
@@ -120,10 +115,46 @@ public class Products extends Database {
                 return false;
         }
 
+        public int[] updateInventory(ArrayList<Item> items) {
+                String statement = "UPDATE products SET quantity = quantity - ? WHERE id = ? RETURNING quantity;";
+
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                        for (Item item : items) {
+                                preparedStatement.setInt(1, item.getQuantity());
+                                preparedStatement.setInt(2, item.getProductId());
+                                preparedStatement.addBatch();
+                        }
+
+                        int[] result = preparedStatement.executeBatch();
+                        return result;
+                }
+                catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                return null;
+        }
+
+        public int updateRestocks(Item item) {
+                String statement = "UPDATE products SET quantity = quantity + ? WHERE id = ? RETURNING quantity;";
+
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                        preparedStatement.setInt(1, item.getQuantity());
+                        preparedStatement.setInt(2, item.getId());
+
+                        ResultSet result = preparedStatement.executeQuery();
+                        if (result.next()) {
+                                return (int)result.getInt(1);
+                        }
+                }
+                catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                return 0;
+        }
+
         public boolean deleteOne(int id) {
                 try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM products WHERE id = " + id + ";")) {
                         int result = preparedStatement.executeUpdate();
-
                         return result == 1;
                 }
                 catch (SQLException error) {
