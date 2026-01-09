@@ -26,7 +26,7 @@ public class Database{
                 try {
                         Statement statement = conn.createStatement();
                         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + tableName + " ("+ 
-                                                        "id BIGSERIAL NOT NULL PRIMARY KEY," +
+                                                        "id SERIAL NOT NULL PRIMARY KEY," +
                                                         schema +
                                                 ");"
                         );
