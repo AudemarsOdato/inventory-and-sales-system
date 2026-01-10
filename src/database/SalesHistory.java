@@ -83,18 +83,48 @@ public class SalesHistory extends Database {
                 return false;
         }
 
-        // get all
-        // @Override
-        // public ArrayList<Sale> getAll() {
-        //         // query all sales
-        //         // query all sale items with the sales
-
-        //         return null;
-        // }
-
-
+        // get all sales
+        public ArrayList<Sale> getAll() {
+                ArrayList<Sale> sales = new ArrayList<>();
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM sales;")) {
+                        ResultSet result = preparedStatement.executeQuery();
+                        while (result.next()) { 
+                                sales.add(new Sale(
+                                        result.getInt("id"),
+                                        result.getInt("cashier"),
+                                        getSaleItems(result.getInt("id")),
+                                        result.getDouble("total_amount"),
+                                        result.getDouble("cash_received")
+                                ));
+                        }
+                        return sales;
+                }
+                catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                return null;
+        }
+        
         // get one for confirmation
-
+        public Sale getOne(int id) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM sales WHERE id = ?;")) {
+                        preparedStatement.setInt(1, id);
+                        ResultSet result = preparedStatement.executeQuery();
+                        if (result.next()) {
+                                return new Sale(
+                                        result.getInt("id"),
+                                        result.getInt("cashier"),
+                                        getSaleItems(result.getInt("id")),
+                                        result.getDouble("total_amount"),
+                                        result.getDouble("cash_received")
+                                );
+                        }
+                }
+                catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                return null;
+        }
         
         // get sale items of a single sale
         public ArrayList<Item> getSaleItems(int saleId) {

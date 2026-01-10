@@ -55,3 +55,4 @@ Manual Product Encoding - All product details, prices, and stock updates must be
 
 
 ## Initial Design
+[Link to UI design](https://www.figma.com/design/oD4n97xrWU1m9qKdCRXLej/Inventory-and-sales-system-ui--design?node-id=3-3&t=qAlblGIwCeqE69kU-1)

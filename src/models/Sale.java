@@ -10,6 +10,7 @@ public class Sale {
         private final double cashReceived;
         private final double changeAmount;
 
+        // context object
         public Sale(int id, int cashierId, ArrayList<Item> items, double totalAmount, double cashReceived) {
                 this.id = id;
                 this.cashierId = cashierId;
@@ -19,6 +20,7 @@ public class Sale {
                 this.changeAmount = totalAmount - cashReceived;
         }
         
+        // recording sale object model
         public Sale(int cashierId, ArrayList<Item> items, double totalAmount, double cashReceived) {
                 this.cashierId = cashierId;
                 this.items = items;
