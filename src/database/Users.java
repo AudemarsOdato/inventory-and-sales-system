@@ -83,6 +83,25 @@ public class Users extends Database{
                 return null;
         }
 
+        public User getOne(String username) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE username = " + username + ";")) {
+                        ResultSet result = preparedStatement.executeQuery();
+                        while (result.next()) {
+                                return new User(
+                                        result.getInt("id"),
+                                        result.getString("role"),
+                                        result.getString("username"),
+                                        result.getString("password"),
+                                        result.getInt("total_sales")
+                                );
+                        }
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+                return null;
+        }
+
 
         public boolean updateOne(int id, String role, String username, String password, int totalSales) {
                 String statement = "UPDATE users " +

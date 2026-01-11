@@ -3,6 +3,7 @@ import database.Database;
 import database.Products;
 import database.SalesHistory;
 import database.Users;
+import pages.Login;
 
 public class Main {
         // start command: java -classpath ".\lib\postgresql-42.2.29.jre7.jar" .\src\Main.java
@@ -12,6 +13,8 @@ public class Main {
                 SalesHistory sales = new SalesHistory();
                 Users users = new Users();
                 Config config = new Config();
+
+                new Login();
         }
 }
 

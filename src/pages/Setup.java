@@ -1,14 +1,66 @@
 package pages;
 
+import components.Button;
+import components.Container;
+import components.Input;
+import components.InputPassword;
 import components.Page;
-import javax.swing.JButton;
+import components.Text;
+import controllers.SetupController;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import javax.swing.JOptionPane;
+import models.User;
+import utilities.InputHelper;
 
 public class Setup extends Page {
         // create window
         public Setup() {
                 setTitle("Setting up the store - POS AND INVENTORY MANAGEMENT SYSTEM");
-                add(new JButton("CREATE"));
+                setLayout(new GridBagLayout());
 
-                setVisible(true);
+                Container container = new Container();
+                container.setLayout(new GridLayout(11, 1));
+                container.setPreferredSize(new Dimension(300, 400));
+                container.add(new Text("Setting up the store", HEADER_SIZE));
+                container.add(new Text("store name", TEXT_SIZE));
+                Input storeNameInput = new Input();
+                container.add(storeNameInput);
+                container.add(new Text("owner username", TEXT_SIZE));
+                Input storeOwnerInput = new Input();
+                container.add(storeOwnerInput);
+                container.add(new Text("password", TEXT_SIZE));
+                InputPassword passInput = new InputPassword();
+                container.add(passInput);
+                container.add(new Text("confirm password", TEXT_SIZE));
+                InputPassword passConfirmInput = new InputPassword();
+                container.add(passConfirmInput);
+                container.add(new Container());
+                Button setupButton = new Button("CREATE");
+                container.add(setupButton);
+                add(container);
+
+                // refactor: use Response model object for the controller
+                setupButton.addActionListener(e -> { 
+                        boolean hasEmptyInputs = new InputHelper().hasEmpty(storeNameInput, storeOwnerInput, passInput, passConfirmInput);
+                        if (hasEmptyInputs) {
+                                JOptionPane.showMessageDialog(null, "Fill all inputs");
+                                return;
+                        }
+                        User owner = new SetupController().setup(storeNameInput.getText(), storeOwnerInput.getText(), passInput.getPassword().toString(), passConfirmInput.getPassword().toString());
+                        if (owner == null) {
+                                JOptionPane.showMessageDialog(null, "Password does not match.");
+                                return;
+                        }
+                        
+                        // add to context and redirect to dashboard
+                        
+                        dispose();
+                });
+
+                // pack(); // set size to fit content
+                setLocationRelativeTo(null);
+                setVisible(true); // must always be at the end
         }
 }
