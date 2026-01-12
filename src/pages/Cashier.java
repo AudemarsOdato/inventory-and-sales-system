@@ -11,12 +11,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
 
-public class Owner extends Page{
-        public Owner() {
-                setTitle("Owner Dashboard - POS AND INVENTORY MANAGEMENT SYSTEM");
+public class Cashier extends Page{
+        public Cashier() {
+                setTitle("Cashier Dashboard - POS AND INVENTORY MANAGEMENT SYSTEM");
                 setLayout(new GridBagLayout());
 
-                String loggedInOwner = "Admin Name";
+                String loggedInCashier = "Cashier Name";
 
                 Container mainContainer = new Container();
                 mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
@@ -25,37 +25,22 @@ public class Owner extends Page{
                 Container headerContainer = new Container(true);
                 headerContainer.setLayout(new BorderLayout(10, 10));
                 headerContainer.setPreferredSize(new Dimension(593, 78));
-                headerContainer.add(new Text("Owner: " + loggedInOwner, Text.TEXT_SIZE, true), BorderLayout.WEST);
+                headerContainer.add(new Text("Cashier: " + loggedInCashier, Text.TEXT_SIZE, true), BorderLayout.WEST);
                 headerContainer.add(new Text(LocalDate.now().toString(), Text.TEXT_SIZE, true), BorderLayout.EAST);
                 
                 Container buttonsContainer = new Container();
-                buttonsContainer.setLayout(new GridLayout(2, 3, 20, 20));
-                buttonsContainer.setPreferredSize(new Dimension(593, 319));
+                buttonsContainer.setLayout(new GridLayout(1, 3, 20, 20)); // 1 row, 3 columns
+                buttonsContainer.setPreferredSize(new Dimension(593, 150));
 
-                Button inventoryButton = new Button("INVENTORY & PRODUCTS");
-                Button salesButton = new Button("SALES");
                 Button posButton = new Button("POS");
-                Button cashiersButton = new Button("CASHIERS");
-                Button systemSettingsButton = new Button("SYSTEM SETTINGS");
+                Button cashierSettingsButton = new Button("CASHIER SETTINGS");
                 Button logoutButton = new Button("LOG OUT");
-
-                inventoryButton.addActionListener(e -> { 
-                        dispose();
-                });
-
-                salesButton.addActionListener(e -> { 
-                        dispose();
-                });
 
                 posButton.addActionListener(e -> { 
                         dispose();
                 });
 
-                cashiersButton.addActionListener(e -> { 
-                        dispose();
-                });
-
-                systemSettingsButton.addActionListener(e -> { 
+                cashierSettingsButton.addActionListener(e -> { 
                         dispose();
                 });
 
@@ -64,11 +49,8 @@ public class Owner extends Page{
                 });
 
                 Button[] buttons = {
-                        inventoryButton,
-                        salesButton,
                         posButton,
-                        cashiersButton,
-                        systemSettingsButton,
+                        cashierSettingsButton,
                         logoutButton
                 };
                 for (Button btn : buttons) {

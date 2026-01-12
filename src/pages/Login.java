@@ -23,11 +23,11 @@ public class Login extends Page{
                 Container container = new Container();
                 container.setLayout(new GridLayout(11, 1));
                 container.setPreferredSize(new Dimension(300, 400));
-                container.add(new Text("Welcome Back!", HEADER_SIZE));
-                container.add(new Text("username", TEXT_SIZE));
+                container.add(new Text("Welcome Back!", Text.HEADER_SIZE));
+                container.add(new Text("username", Text.TEXT_SIZE));
                 Input usernameInput = new Input();
                 container.add(usernameInput);
-                container.add(new Text("password", TEXT_SIZE));
+                container.add(new Text("password", Text.TEXT_SIZE));
                 InputPassword passInput = new InputPassword();
                 container.add(passInput);
                 container.add(new Container());
