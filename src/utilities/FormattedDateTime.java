@@ -11,9 +11,7 @@ public class FormattedDateTime{
 
         public FormattedDateTime() {
                 this.date = localDate.getMonth() + "-" + localDate.getDayOfMonth() + "-" + localDate.getYear();
-                System.out.println(date);
                 this.time = localTime.getHour() + "-" + localTime.getMinute() + "-" + localTime.getSecond();
-                System.out.println(time);
         }
 
         public String getDateTime() {

@@ -8,7 +8,6 @@ import components.custom.ProductTableRow;
 import database.Products;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
@@ -22,7 +21,7 @@ public class Inventory extends Page{
                 setLayout(new GridBagLayout());
 
                 Container mainContainer = new Container();
-                mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+                mainContainer.setLayout(new BorderLayout(20, 20));
                 mainContainer.setPreferredSize(new Dimension(900, 600));
                 
                 Container headerContainer = new Container();
@@ -46,36 +45,35 @@ public class Inventory extends Page{
                 table.setLayout(new BorderLayout());
                 Container tableHeader = new Container();
                 tableHeader.setLayout(new GridLayout(1, 7));
-                tableHeader.setPreferredSize(new Dimension(790, 40));
-                tableHeader.add(new Text("id", Text.TEXT_SMALL));
-                tableHeader.add(new Text("name", Text.TEXT_SMALL));
-                tableHeader.add(new Text("in-stock", Text.TEXT_SMALL));
-                tableHeader.add(new Text("pricing", Text.TEXT_SMALL));
-                tableHeader.add(new Text("last restock", Text.TEXT_SMALL));
-                tableHeader.add(new Text("", Text.TEXT_SMALL));
-                tableHeader.add(new Text("", Text.TEXT_SMALL));
+                tableHeader.add(new ProductTableRow());
                 Container tableBody = new Container();
                 tableBody.setLayout(new BoxLayout(tableBody, BoxLayout.Y_AXIS));
+                tableBody.setAlignmentX(Container.LEFT_ALIGNMENT);
                 JScrollPane scrollPane = new JScrollPane(tableBody);
-                scrollPane.setPreferredSize(new Dimension(790, 400));
                 scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                scrollPane.setPreferredSize(new Dimension(800, 400));
+                scrollPane.setMinimumSize(new Dimension(800, 200));
 
                 Products products = new Products();
                 for (Product product : products.getAll()) {
-                        tableBody.add(new ProductTableRow(product.getName(), product.getId(), product.getQuantity(), product.getLastStockup(), product.getPricing()));
+                        tableBody.add(new ProductTableRow(this, user, product.getName(), product.getId(), product.getQuantity(), product.getLastStockup(), product.getPricing()));
                 }
                 
-                table.add(tableHeader, BorderLayout.NORTH);
+                table.add(new ProductTableRow(), BorderLayout.NORTH);
                 // table.add(tableBody, BorderLayout.CENTER);
                 table.add(scrollPane, BorderLayout.CENTER);
 
                 // add header to main container
-                mainContainer.add(headerContainer);
-                mainContainer.add(table);
+                mainContainer.add(headerContainer, BorderLayout.NORTH);
+                mainContainer.add(table, BorderLayout.CENTER);
                 add(mainContainer);
 
                 pack();
                 setLocationRelativeTo(null);
                 setVisible(true);
+        }
+
+        protected void closeCurrent() {
+                this.dispose();
         }
 }

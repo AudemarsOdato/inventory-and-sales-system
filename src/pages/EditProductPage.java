@@ -1,22 +1,23 @@
 package pages;
 
+import database.Products;
 import java.awt.*;
 import javax.swing.*;
+import models.User;
 
 public class EditProductPage extends JFrame {
 
     private JTextField txtProductName;
-    private JTextField txtImagePath;
     private JTextField txtPricing;
 
     private JButton btnDelete;
     private JButton btnSave;
 
-    public EditProductPage() {
+    public EditProductPage(Inventory inventory, User user, String productName, int productId, double price) {
         setTitle("Edit product details - POS AND INVENTORY MANAGEMENT SYSTEM");
         setSize(600, 300);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -24,11 +25,9 @@ public class EditProductPage extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel lblProductName = new JLabel("Product name:");
-        JLabel lblImagePath = new JLabel("Image path:");
         JLabel lblPricing = new JLabel("Pricing:");
 
         txtProductName = new JTextField(20);
-        txtImagePath = new JTextField(20);
         txtPricing = new JTextField(20);
 
         btnDelete = new JButton("DELETE PRODUCT");
@@ -44,12 +43,6 @@ public class EditProductPage extends JFrame {
         gbc.gridx = 1;
         panel.add(txtProductName, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1;
-        panel.add(lblImagePath, gbc);
-
-        gbc.gridx = 1;
-        panel.add(txtImagePath, gbc);
-
         gbc.gridx = 0; gbc.gridy = 2;
         panel.add(lblPricing, gbc);
 
@@ -61,6 +54,26 @@ public class EditProductPage extends JFrame {
 
         gbc.gridx = 1;
         panel.add(btnSave, gbc);
+
+        txtProductName.setText(productName);
+        txtPricing.setText(String.valueOf(price));
+
+        Products products = new Products();
+        btnDelete.addActionListener(e -> {
+                products.deleteOne(productId);
+                JOptionPane.showMessageDialog(null, "Deleted product: " + productName);
+                inventory.closeCurrent();
+                new Inventory(user);
+                dispose();
+        });
+        
+        btnSave.addActionListener(e -> {
+                products.updateOne(productId, txtProductName.getText(), "n/a", Double.parseDouble(txtPricing.getText()));
+                JOptionPane.showMessageDialog(null, "Updated product: " + productName);
+                inventory.dispose();
+                new Inventory(user);
+                dispose();
+        });
 
         add(panel);
 

@@ -98,8 +98,8 @@ public class Products extends Database {
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, name);
                         preparedStatement.setString(2, imagePath);
-                        preparedStatement.setDouble(4, pricing);
-                        preparedStatement.setDate(6, Date.valueOf(LocalDate.now()));
+                        preparedStatement.setDouble(3, pricing);
+                        preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
 
                        int result = preparedStatement.executeUpdate();
                        
@@ -132,10 +132,13 @@ public class Products extends Database {
 
         public int updateRestocks(Item item) {
                 String statement = "UPDATE products SET quantity = quantity + ? WHERE id = ? RETURNING quantity;";
+                System.out.println("db");
+                System.out.println(item.getProductId());
+                System.out.println(item.getQuantity());
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setInt(1, item.getQuantity());
-                        preparedStatement.setInt(2, item.getId());
+                        preparedStatement.setInt(2, item.getProductId());
 
                         ResultSet result = preparedStatement.executeQuery();
                         if (result.next()) {
