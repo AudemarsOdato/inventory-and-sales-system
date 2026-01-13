@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.JOptionPane;
+import models.Response;
 import models.User;
 import utilities.InputHelper;
 
@@ -48,14 +49,16 @@ public class Setup extends Page {
                                 JOptionPane.showMessageDialog(null, "Fill all inputs");
                                 return;
                         }
-                        User owner = new SetupController().setup(storeNameInput.getText(), storeOwnerInput.getText(), passInput.getPassword().toString(), passConfirmInput.getPassword().toString());
-                        if (owner == null) {
-                                JOptionPane.showMessageDialog(null, "Password does not match.");
+                        Response response = new SetupController().setup(storeNameInput.getText(), storeOwnerInput.getText(), passInput.getText(), passConfirmInput.getText());
+                        if (!response.ok()) {
+                                System.out.println("is response ok: " +response.ok());
+                                JOptionPane.showMessageDialog(null, response.getMessage());
                                 return;
                         }
+
+                        User user = (User)response.getObject();
                         
-                        // add to context and redirect to dashboard
-                        
+                        new Owner(user);                        
                         dispose();
                 });
 

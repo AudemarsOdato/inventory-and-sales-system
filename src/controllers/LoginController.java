@@ -12,14 +12,11 @@ public class LoginController{
                 // incorrect username error
                 User user = users.getOne(username);
                 if (user == null) {
-                        return new Response(400, "Incorrect username!");
+                        return new Response<>(400, "Incorrect username!");
                 }
-
-                // if there is user
-                // check password
-                // incorrect password error
+                
                 if (!(new JCrypt().isMatch(password, user.getPassword()))) {
-                        return new Response(400, "Incorrect password!");
+                        return new Response<>(400, "Incorrect password!");
                 }
 
                 return new Response<>(200, user);

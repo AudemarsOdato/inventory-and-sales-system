@@ -4,19 +4,21 @@ import components.Button;
 import components.Container;
 import components.Page;
 import components.Text;
+import context.UserContext;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
+import models.User;
 
 public class Owner extends Page{
-        public Owner() {
+        public Owner(User user) {
                 setTitle("Owner Dashboard - POS AND INVENTORY MANAGEMENT SYSTEM");
                 setLayout(new GridBagLayout());
 
-                String loggedInOwner = "Admin Name";
+                String loggedInOwner = user.getName();
 
                 Container mainContainer = new Container();
                 mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
@@ -40,14 +42,17 @@ public class Owner extends Page{
                 Button logoutButton = new Button("LOG OUT");
 
                 inventoryButton.addActionListener(e -> { 
+                        new Inventory(user);
                         dispose();
                 });
 
                 salesButton.addActionListener(e -> { 
+                        new Sales(user);
                         dispose();
                 });
 
                 posButton.addActionListener(e -> { 
+                        new POS(user);
                         dispose();
                 });
 
@@ -59,7 +64,9 @@ public class Owner extends Page{
                         dispose();
                 });
 
-                logoutButton.addActionListener(e -> { 
+                logoutButton.addActionListener(e -> {
+                        new UserContext().removeUser();
+                        new Login();
                         dispose();
                 });
 

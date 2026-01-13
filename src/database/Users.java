@@ -84,7 +84,8 @@ public class Users extends Database{
         }
 
         public User getOne(String username) {
-                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE username = " + username + ";")) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE username = ?;")) {
+                        preparedStatement.setString(1, username);
                         ResultSet result = preparedStatement.executeQuery();
                         while (result.next()) {
                                 return new User(

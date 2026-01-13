@@ -7,9 +7,16 @@ public class Text extends JLabel {
         final public static int HEADER_SIZE = 32;
         final public static int TEXT_SIZE = 20;
         final public static int TEXT_SMALL = 16;
+        
         public Text(String text, int size) {
                 setText(text);
                 setFont(new Font("Arial", Font.PLAIN, size));
+        }
+
+        public Text(String text, int size, String alignment) {
+                setText(text);
+                setFont(new Font("Arial", Font.PLAIN, size));
+                setAlignmentX(CENTER_ALIGNMENT);
         }
 
         public Text(String text, int size, boolean  isBold) {

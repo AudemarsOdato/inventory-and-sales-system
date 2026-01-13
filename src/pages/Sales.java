@@ -1,12 +1,16 @@
 package pages;
 
+import components.Button;
+import components.Container;
+import components.Text;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import models.User;
 
 public class Sales extends JFrame {
 
-    public Sales() {
+    public Sales(User user) {
         setTitle("Sales Dashboard - POS AND INVENTORY MANAGEMENT SYSTEM");
         setSize(750, 400);
         setLocationRelativeTo(null);
@@ -15,24 +19,22 @@ public class Sales extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel title = new JLabel("Sales page");
-        title.setFont(new Font("Arial", Font.BOLD, 16));
-        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
-        panel.add(title, BorderLayout.NORTH);
+        Container headerContainer = new Container();
+        headerContainer.setLayout(new BorderLayout());
+        headerContainer.add(new Text("Sales record", Text.TEXT_SIZE), BorderLayout.CENTER);
+        Button backButton = new Button("<--");
+        backButton.addActionListener(e -> {
+                new Owner(user);
+                dispose();
+        });
+        headerContainer.add(backButton, BorderLayout.WEST);
+        panel.add(headerContainer, BorderLayout.NORTH);
 
         String[] columns = {
                 "id", "time", "date", "totalAmount", "action"
         };
 
-        Object[][] data = {
-                {"18275", "19:32:58", "12-11-2025", "182.00", "View"},
-                {"18275", "19:32:58", "12-11-2025", "182.00", "View"},
-                {"18275", "19:32:58", "12-11-2025", "182.00", "View"},
-                {"18275", "19:32:58", "12-11-2025", "182.00", "View"},
-                {"18275", "19:32:58", "12-11-2025", "182.00", "View"}
-        };
-
-        DefaultTableModel model = new DefaultTableModel(data, columns) {
+        DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 4; // Only action column is editable (button)
@@ -46,6 +48,14 @@ public class Sales extends JFrame {
         // Add button renderer and editor
         table.getColumn("action").setCellRenderer(new ButtonRenderer());
         table.getColumn("action").setCellEditor(new ButtonEditor(new JCheckBox(), table));
+
+        model.addRow(new Object[] {
+                "productId",
+                "itemName",
+                "quantity",
+                "price",
+                2*2
+        });
 
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);

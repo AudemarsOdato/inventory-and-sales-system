@@ -22,24 +22,23 @@ public class Products extends Database {
         }
 
         public int insert(String name, String image_path, int quantity, double pricing) {
-                String statement = "INSERT INTO products(name, image_path, quantity, pricing, total_amount) VALUES(?, ?, ?, ?, ?) RETURNING id;";
+                String statement = "INSERT INTO products(name, image_path, quantity, pricing) VALUES(?, ?, ?, ?) RETURNING id;";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, name);
                         preparedStatement.setString(2, image_path);
                         preparedStatement.setInt(3, quantity);
                         preparedStatement.setDouble(4, pricing);
-                        preparedStatement.setDouble(5, pricing * quantity);
-                        // Date.valueOf(LocalDate.now())
 
                         ResultSet result = preparedStatement.executeQuery();
 
                         if (result.next()) {
-                                return (int)result.getInt(1);
+                                return (int)result.getInt("id");
                         }
                 }
                 catch (SQLException error) {
                         error.printStackTrace();
+                        return 0;
                 }
                 return 0;
         }
@@ -53,14 +52,12 @@ public class Products extends Database {
                         while (result.next()) {
                                 int id = result.getInt("id");
                                 String name = result.getString("name");
-                                String image_path = result.getString("image_path");
                                 int quantity = result.getInt("quantity");
                                 double pricing = result.getDouble("pricing");
-                                double totalAmount = result.getDouble("total_amount");
-                                Date date = result.getDate("last_stockup");
+                                LocalDate date = result.getDate("last_stockup").toLocalDate();
 
                                 // refactor: put the get methods directly, see Users.java
-                                products.add(new Product(id, name, image_path, quantity, pricing, date));
+                                products.add(new Product(id, name, quantity, pricing, date));
                         }
                         return products;
                 }
@@ -78,10 +75,9 @@ public class Products extends Database {
                                 return new Product(
                                         result.getInt("id"),
                                         result.getString("name"),
-                                        result.getString("image_path"),
                                         result.getInt("quantity"),
                                         result.getDouble("pricing"),
-                                        result.getDate("last_stockup")
+                                        result.getDate("last_stockup").toLocalDate()
                                 );
                         }
                 }

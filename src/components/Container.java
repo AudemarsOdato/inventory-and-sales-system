@@ -29,6 +29,13 @@ public class Container extends JPanel {
                 );
         }
 
+        public Container(int paddingWidth, int paddingHeight) {
+                // set border
+                setBorder(
+                        BorderFactory.createEmptyBorder(paddingWidth, paddingHeight, paddingWidth, paddingHeight)
+                );
+        }
+
         public void addBorder() {
                 setBorder(
                         BorderFactory.createCompoundBorder(

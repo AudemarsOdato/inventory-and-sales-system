@@ -1,22 +1,26 @@
 package models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Product {
-        private final int id;
+        private int id;
         private final String name;
-        private final String imagePath;
         private final int quantity;
         private final double pricing;
-        private final Date lastStockup;
+        private LocalDate lastStockup;
 
-        public Product(int id, String name, String imagePath, int quantity, double pricing, Date lastStockup) {
+        public Product(int id, String name, int quantity, double pricing, LocalDate lastStockup) {
                 this.id = id;
                 this.name = name;
-                this.imagePath = imagePath;
                 this.quantity = quantity;
                 this.pricing = pricing;
                 this.lastStockup = lastStockup;
+        }
+
+        public Product(String name, int quantity, double pricing) {
+                this.name = name;
+                this.quantity = quantity;
+                this.pricing = pricing;
         }
 
         public int getId() {
@@ -27,9 +31,9 @@ public class Product {
                 return name;
         }
 
-        public String getImagePath() {
-                return imagePath;
-        }
+        // public String getImagePath() {
+        //         return imagePath;
+        // }
 
         public int getQuantity() {
                 return quantity;
@@ -39,7 +43,7 @@ public class Product {
                 return pricing;
         }
 
-        public Date getLastStockup() {
+        public LocalDate getLastStockup() {
                 return lastStockup;
         }
 }

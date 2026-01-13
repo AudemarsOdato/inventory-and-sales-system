@@ -42,16 +42,22 @@ public class Login extends Page{
                                 return;
                         }
 
-                        Response response = new LoginController().login(usernameInput.getText(), passInput.getPassword().toString());
+                        Response response = new LoginController().login(usernameInput.getText(), new String(passInput.getPassword()));
                         if (!response.ok()) {
                                 JOptionPane.showMessageDialog(null, response.getMessage());
                                 return;
                         }
 
-                        // add to context and redirect to dashboard
                         User user = (User) response.getObject();
                         System.out.println("logged in: " + user.getName());
                         System.out.println("role: " + user.getRole());
+
+                        if (user.getRole().equals("owner")) {
+                                new Owner(user);
+                        }
+                        if (user.getRole().equals("cashier")) {
+                                new Cashier(user);
+                        }
 
                         dispose();
                 });

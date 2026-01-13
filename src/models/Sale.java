@@ -17,7 +17,7 @@ public class Sale {
                 this.items = items;
                 this.totalAmount = totalAmount;
                 this.cashReceived = cashReceived;
-                this.changeAmount = totalAmount - cashReceived;
+                this.changeAmount = cashReceived - totalAmount;
         }
         
         // recording sale object model
@@ -26,7 +26,7 @@ public class Sale {
                 this.items = items;
                 this.totalAmount = totalAmount;
                 this.cashReceived = cashReceived;
-                this.changeAmount = totalAmount - cashReceived;
+                this.changeAmount = cashReceived - totalAmount;
         }
 
         public int getId() {

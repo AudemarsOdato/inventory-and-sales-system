@@ -10,13 +10,14 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.time.LocalDate;
+import models.User;
 
 public class Cashier extends Page{
-        public Cashier() {
+        public Cashier(User user) {
                 setTitle("Cashier Dashboard - POS AND INVENTORY MANAGEMENT SYSTEM");
                 setLayout(new GridBagLayout());
 
-                String loggedInCashier = "Cashier Name";
+                String loggedInCashier = user.getName();
 
                 Container mainContainer = new Container();
                 mainContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
