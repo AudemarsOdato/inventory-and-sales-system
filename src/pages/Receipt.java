@@ -25,7 +25,7 @@ public class Receipt extends Page{
 
                 headerContainer.add(new Text(new Config().getStoreTitle(), Text.TEXT_SIZE, "center"));
                 headerContainer.add(new Text("Cashier: " + user.getName(), Text.TEXT_SIZE, "center"));
-                headerContainer.add(new Text(new FormattedDateTime().getDateTime(), Text.TEXT_SIZE, "center"));
+                headerContainer.add(new Text(new FormattedDateTime(sale).getDateTime(), Text.TEXT_SIZE, "center"));
                 headerContainer.add(new Text("", Text.TEXT_SIZE, "center"));
 
                 Container itemsContainer = new Container(20, 20);

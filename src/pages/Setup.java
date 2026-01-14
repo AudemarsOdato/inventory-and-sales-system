@@ -42,7 +42,6 @@ public class Setup extends Page {
                 container.add(setupButton);
                 add(container);
 
-                // refactor: use Response model object for the controller
                 setupButton.addActionListener(e -> { 
                         boolean hasEmptyInputs = new InputHelper().hasEmpty(storeNameInput, storeOwnerInput, passInput, passConfirmInput);
                         if (hasEmptyInputs) {
@@ -51,7 +50,7 @@ public class Setup extends Page {
                         }
                         Response response = new SetupController().setup(storeNameInput.getText(), storeOwnerInput.getText(), passInput.getText(), passConfirmInput.getText());
                         if (!response.ok()) {
-                                System.out.println("is response ok: " +response.ok());
+                                System.out.println("is response ok: " + response.ok());
                                 JOptionPane.showMessageDialog(null, response.getMessage());
                                 return;
                         }

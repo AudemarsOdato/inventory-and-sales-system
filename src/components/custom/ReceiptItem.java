@@ -12,7 +12,12 @@ public class ReceiptItem extends Container {
                 double total = quantity * unitPrice;
 
                 Text left = new Text(
-                        name + " " + quantity + " x " + unitPrice,
+                        name,
+                        Text.TEXT_SIZE
+                );
+                
+                Text south = new Text(
+                        quantity + " x " + unitPrice,
                         Text.TEXT_SIZE
                 );
 
@@ -23,6 +28,7 @@ public class ReceiptItem extends Container {
 
                 add(left, BorderLayout.WEST);
                 add(right, BorderLayout.EAST);
+                add(south, BorderLayout.SOUTH);
         }
 
         public ReceiptItem(String key, double value) {

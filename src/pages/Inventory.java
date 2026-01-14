@@ -9,7 +9,6 @@ import database.Products;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import models.Product;
@@ -43,9 +42,6 @@ public class Inventory extends Page{
                 
                 Container table = new Container();
                 table.setLayout(new BorderLayout());
-                Container tableHeader = new Container();
-                tableHeader.setLayout(new GridLayout(1, 7));
-                tableHeader.add(new ProductTableRow());
                 Container tableBody = new Container();
                 tableBody.setLayout(new BoxLayout(tableBody, BoxLayout.Y_AXIS));
                 tableBody.setAlignmentX(Container.LEFT_ALIGNMENT);
@@ -60,7 +56,6 @@ public class Inventory extends Page{
                 }
                 
                 table.add(new ProductTableRow(), BorderLayout.NORTH);
-                // table.add(tableBody, BorderLayout.CENTER);
                 table.add(scrollPane, BorderLayout.CENTER);
 
                 // add header to main container

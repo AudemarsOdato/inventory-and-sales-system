@@ -1,5 +1,7 @@
 package models;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class Sale {
@@ -8,16 +10,20 @@ public class Sale {
         private ArrayList<Item> items;
         private final double totalAmount;
         private final double cashReceived;
-        private final double changeAmount;
+        private final double changeAmount; 
+        private Time time; 
+        private Date date; 
 
         // context object
-        public Sale(int id, int cashierId, ArrayList<Item> items, double totalAmount, double cashReceived) {
+        public Sale(int id, int cashierId, ArrayList<Item> items, double totalAmount, double cashReceived, Time time, Date date) {
                 this.id = id;
                 this.cashierId = cashierId;
                 this.items = items;
                 this.totalAmount = totalAmount;
                 this.cashReceived = cashReceived;
                 this.changeAmount = cashReceived - totalAmount;
+                this.time = time;
+                this.date = date;
         }
         
         // recording sale object model
@@ -51,5 +57,13 @@ public class Sale {
 
         public double getChangeAmount() {
                 return changeAmount;
+        }
+
+        public Time getTime() {
+                return time;
+        }
+
+        public Date getDate() {
+                return date;
         }
 }

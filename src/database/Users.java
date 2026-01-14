@@ -109,14 +109,32 @@ public class Users extends Database{
                                         "SET role = ?, " + 
                                         "username = ?, " + 
                                         "password = ?, " +
-                                        "total_sales = ? " + // increment
+                                        "total_sales = ? " +
                                         "WHERE id = " + id + ";";
 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
                         preparedStatement.setString(1, role);
                         preparedStatement.setString(2, username);
-                        preparedStatement.setString(3, role);
+                        preparedStatement.setString(3, password);
                         preparedStatement.setInt(4, totalSales); 
+
+                       int result = preparedStatement.executeUpdate();
+                       
+                       return result == 1;
+                }
+                catch (SQLException error) {
+                        error.printStackTrace();
+                }
+                return false;
+        }
+
+        public boolean incrementTotalSale(int id) {
+                String statement = "UPDATE users " +
+                                        "SET total_sales = total_sales + 1 " +
+                                        "WHERE id = ?;";
+
+                try (PreparedStatement preparedStatement = conn.prepareStatement(statement)) {
+                        preparedStatement.setInt(1, id); 
 
                        int result = preparedStatement.executeUpdate();
                        

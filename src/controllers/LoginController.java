@@ -8,8 +8,7 @@ import utilities.JCrypt;
 public class LoginController{
         public Response login(String username, String password) {
                 Users users = new Users();
-                // check db if there if a user in that username
-                // incorrect username error
+                
                 User user = users.getOne(username);
                 if (user == null) {
                         return new Response<>(400, "Incorrect username!");

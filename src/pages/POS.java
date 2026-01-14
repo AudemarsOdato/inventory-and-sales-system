@@ -7,6 +7,7 @@ import components.Page;
 import components.Text;
 import database.Products;
 import database.SalesHistory;
+import database.Users;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -31,13 +32,18 @@ public class POS extends Page {
                 headerContainer.setPreferredSize(new Dimension(798, 46));
                 Button backButton = new Button("<--");
                 backButton.addActionListener(e -> {
-                        new Owner(user);
+                        if (user.getRole().equals("owner")) {
+                                new Owner(user);
+                        }
+
+                        if (user.getRole().equals("cashier")) {
+                                new Cashier(user);
+                        }
                         dispose();
                 });
                 headerContainer.add(backButton, BorderLayout.WEST);
                 headerContainer.add(new Text("Point-of-Sale", Text.TEXT_SIZE), BorderLayout.CENTER);
 
-                // PAYMENT PANEL (LEFT)
                 Container paymentPanel = new Container(true);
                 paymentPanel.setLayout(new BoxLayout(paymentPanel, BoxLayout.Y_AXIS));
 
@@ -55,10 +61,10 @@ public class POS extends Page {
                 Button checkoutButton = new Button("CHECKOUT");
                 paymentPanel.add(checkoutButton);
 
-                // ITEMS PANEL (CENTER)
                 Container itemsPanel = new Container(true);
                 itemsPanel.setLayout(new BorderLayout());
                 
+                // be able to remove items from the items table
                 String[] columns = { "ID", "Item", "Quantity", "Price", "Total" };
                 DefaultTableModel model = new DefaultTableModel(columns, 0) {
                         @Override
@@ -73,7 +79,6 @@ public class POS extends Page {
                 JScrollPane scrollPane = new JScrollPane(itemsTable);
                 itemsPanel.add(scrollPane, BorderLayout.CENTER);
                 
-                // ITEM INFO PANEL (RIGHT)
                 Container itemInfoPanel = new Container(true);
                 itemInfoPanel.setLayout(new BoxLayout(itemInfoPanel, BoxLayout.Y_AXIS));
                 
@@ -119,6 +124,8 @@ public class POS extends Page {
                         int saleId = sales.insert(new Sale(user.getId(), items, grandTotal, Integer.parseInt(cashReceivedInput.getText())));
                         new Receipt(user, sales.getOne(saleId));
                         new POS(user);
+                        grandTotal = 0;
+                        new Users().incrementTotalSale(user.getId());
                         dispose();
                 });
 
@@ -129,7 +136,6 @@ public class POS extends Page {
                         quantityInput
                 );
 
-                // ADD PANELS TO PAGE
                 add(headerContainer, BorderLayout.NORTH);
                 add(paymentPanel, BorderLayout.WEST);
                 add(itemsPanel, BorderLayout.CENTER);

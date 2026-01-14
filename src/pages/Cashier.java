@@ -4,6 +4,7 @@ import components.Button;
 import components.Container;
 import components.Page;
 import components.Text;
+import context.UserContext;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,14 +39,17 @@ public class Cashier extends Page{
                 Button logoutButton = new Button("LOG OUT");
 
                 posButton.addActionListener(e -> { 
+                        new POS(user);
                         dispose();
                 });
 
                 cashierSettingsButton.addActionListener(e -> { 
-                        dispose();
+                        new CashiersSettings(user, this);
                 });
 
                 logoutButton.addActionListener(e -> { 
+                        new UserContext().removeUser();
+                        new Login();
                         dispose();
                 });
 
@@ -64,5 +68,9 @@ public class Cashier extends Page{
 
                 setLocationRelativeTo(null);
                 setVisible(true);
+        }
+
+        protected void closeCurrent() {
+                this.dispose();
         }
 }

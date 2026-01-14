@@ -57,11 +57,12 @@ public class Owner extends Page{
                 });
 
                 cashiersButton.addActionListener(e -> { 
+                        new Cashiers(user);
                         dispose();
                 });
 
                 systemSettingsButton.addActionListener(e -> { 
-                        dispose();
+                        new SystemSettings(user);
                 });
 
                 logoutButton.addActionListener(e -> {

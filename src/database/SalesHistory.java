@@ -15,7 +15,8 @@ public class SalesHistory extends Database {
                         "total_amount NUMERIC(10, 2) NOT NULL, " +
                         "cash_received NUMERIC(10, 2) NOT NULL, " +
                         "change_amount NUMERIC(10, 2) NOT NULL, " +
-                        "time_and_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL" // "use the database time as the source of truth." -chatgpt, 2026
+                        "time TIME NOT NULL DEFAULT CURRENT_TIME, " + // "use the database time as the source of truth." -chatgpt, 2026
+                        "date DATE NOT NULL DEFAULT CURRENT_DATE"
                 );
                 createTable("sale_items", 
                         "sale_id INT NOT NULL REFERENCES sales(id)," +
@@ -94,7 +95,9 @@ public class SalesHistory extends Database {
                                         result.getInt("cashier"),
                                         getSaleItems(result.getInt("id")),
                                         result.getDouble("total_amount"),
-                                        result.getDouble("cash_received")
+                                        result.getDouble("cash_received"),
+                                        result.getTime("time"),
+                                        result.getDate("date")
                                 ));
                         }
                         return sales;
@@ -116,7 +119,9 @@ public class SalesHistory extends Database {
                                         result.getInt("cashier"),
                                         getSaleItems(result.getInt("id")),
                                         result.getDouble("total_amount"),
-                                        result.getDouble("cash_received")
+                                        result.getDouble("cash_received"),
+                                        result.getTime("time"),
+                                        result.getDate("date")
                                 );
                         }
                 }

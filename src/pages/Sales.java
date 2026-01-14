@@ -3,12 +3,15 @@ package pages;
 import components.Button;
 import components.Container;
 import components.Text;
+import database.SalesHistory;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import models.Sale;
 import models.User;
 
 public class Sales extends JFrame {
+        SalesHistory sales = new SalesHistory();
 
     public Sales(User user) {
         setTitle("Sales Dashboard - POS AND INVENTORY MANAGEMENT SYSTEM");
@@ -47,15 +50,16 @@ public class Sales extends JFrame {
 
         // Add button renderer and editor
         table.getColumn("action").setCellRenderer(new ButtonRenderer());
-        table.getColumn("action").setCellEditor(new ButtonEditor(new JCheckBox(), table));
+        table.getColumn("action").setCellEditor(new ButtonEditor(new JCheckBox(), table, user));
 
-        model.addRow(new Object[] {
-                "productId",
-                "itemName",
-                "quantity",
-                "price",
-                2*2
-        });
+        for (Sale sale : sales.getAll()) {    
+                model.addRow(new Object[] {
+                        sale.getId(),
+                        sale.getTime(),
+                        sale.getDate(),
+                        sale.getTotalAmount(),
+                });
+        }
 
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -83,7 +87,7 @@ public class Sales extends JFrame {
         private JButton button;
         private JTable table;
 
-        public ButtonEditor(JCheckBox checkBox, JTable table) {
+        public ButtonEditor(JCheckBox checkBox, JTable table, User user) {
             super(checkBox);
             this.table = table;
 
@@ -91,13 +95,8 @@ public class Sales extends JFrame {
             button.addActionListener(e -> {
                 int row = table.getSelectedRow();
                 String saleId = table.getValueAt(row, 0).toString();
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Viewing details for Sale ID: " + saleId,
-                        "Sale Details",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
+                Sale sale = sales.getOne(Integer.parseInt(saleId));
+                new Receipt(user, sale);
             });
         }
 

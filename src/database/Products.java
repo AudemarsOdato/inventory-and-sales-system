@@ -17,7 +17,8 @@ public class Products extends Database {
                         "image_path VARCHAR(255) NOT NULL, " +
                         "quantity INT NOT NULL, " +
                         "pricing DOUBLE PRECISION NOT NULL, " +
-                        "last_stockup DATE NOT NULL DEFAULT CURRENT_DATE"
+                        "last_stockup DATE NOT NULL DEFAULT CURRENT_DATE, " +
+                        "is_active BOOLEAN NOT NULL DEFAULT true"
                 );
         }
 
@@ -46,7 +47,7 @@ public class Products extends Database {
         public ArrayList<Product> getAll() {
                 ArrayList<Product> products = new ArrayList<>();
                 
-                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products;")) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM products WHERE is_active = true;")) {
                         ResultSet result = preparedStatement.executeQuery();
 
                         while (result.next()) {
@@ -152,7 +153,8 @@ public class Products extends Database {
         }
 
         public boolean deleteOne(int id) {
-                try (PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM products WHERE id = " + id + ";")) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement("UPDATE products SET is_active = false WHERE id = ?;")) {
+                        preparedStatement.setInt(1, id);
                         int result = preparedStatement.executeUpdate();
                         return result == 1;
                 }
