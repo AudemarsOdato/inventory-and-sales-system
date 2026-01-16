@@ -22,7 +22,7 @@ import models.Sale;
 import models.User;
 
 public class POS extends Page {
-        static double grandTotal = 0;
+        double grandTotal = 0;
         public POS(User user) {
                 setTitle("Point-of-Sale - POS AND INVENTORY MANAGEMENT SYSTEM");
                 setLayout(new BorderLayout());
@@ -101,6 +101,10 @@ public class POS extends Page {
                 
                 addButton.addActionListener(e -> {
                         Product product = products.getOne(Integer.parseInt(productIdInput.getText()));
+                        if (product.getQuantity() < Integer.parseInt(quantityInput.getText())) {
+                                JOptionPane.showMessageDialog(null, "Remaining stock: " + product.getQuantity());  
+                                return;                           
+                        }
                         if (!(product != null)) {
                                 JOptionPane.showMessageDialog(null, "Invalid Id!");
                         }                     
@@ -121,11 +125,19 @@ public class POS extends Page {
                 });
 
                 checkoutButton.addActionListener(e -> {
+                        // if (Integer.parseInt(cashReceivedInput.getText()) < grandTotal) {
+                        //         JOptionPane.showMessageDialog(null, "Bawal utang dito pre, namo ah");
+                        //         return;
+                        // }
+                        // if (Integer.parseInt(cashReceivedInput.getText()) > grandTotal) {
+                        //         JOptionPane.showMessageDialog(null, "Walang panukli yah");
+                        //         return;
+                        // }
                         int saleId = sales.insert(new Sale(user.getId(), items, grandTotal, Integer.parseInt(cashReceivedInput.getText())));
                         new Receipt(user, sales.getOne(saleId));
                         new POS(user);
-                        grandTotal = 0;
                         new Users().incrementTotalSale(user.getId());
+                        grandTotal = 0;
                         dispose();
                 });
 

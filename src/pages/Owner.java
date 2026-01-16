@@ -28,6 +28,7 @@ public class Owner extends Page{
                 headerContainer.setLayout(new BorderLayout(10, 10));
                 headerContainer.setPreferredSize(new Dimension(593, 78));
                 headerContainer.add(new Text("Owner: " + loggedInOwner, Text.TEXT_SIZE, true), BorderLayout.WEST);
+                // headerContainer.add(new Text(new Config().getStoreTitle(), Text.TEXT_SIZE, true), BorderLayout.NORTH);
                 headerContainer.add(new Text(LocalDate.now().toString(), Text.TEXT_SIZE, true), BorderLayout.EAST);
                 
                 Container buttonsContainer = new Container();

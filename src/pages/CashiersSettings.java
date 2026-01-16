@@ -107,7 +107,7 @@ public class CashiersSettings extends JFrame {
                                 return;
                         }
                         // update the password using jcrypt to hash new password
-                        users.updateOne(user.getId(), user.getRole(), user.getName(), jCrypt.hash(newPassword), user.getTotalSales());
+                        users.updateOne(user.getId(), user.getRole(), newUser.getName(), jCrypt.hash(newPassword), user.getTotalSales());
                         
                         dispose();
                 });
